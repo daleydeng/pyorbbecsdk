@@ -1,0 +1,38 @@
+context:
+  version: 2.0.6
+  build_number: 1000
+
+package:
+  name: pyorbbecsdk
+  version: ${{ version }}
+
+source:
+  - git: https://github.com/orbbec/pyorbbecsdk.git
+    branch: v2-main
+
+build:
+  number: ${{ build_number }}
+  string: py${{ python | replace(".", "") }}h${{ hash }}_${{ build_number }}
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - ninja
+
+  host:
+    - pybind11
+    - python
+    - orbbecsdk
+
+  run:
+    - python
+
+tests:
+  - python:
+      imports:
+        - pyorbbecsdk
+
+about:
+  homepage: https://github.com/orbbec/pyorbbecsdk
+  summary: Python bindings for the Orbbec SDK v2.x,

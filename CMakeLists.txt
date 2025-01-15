@@ -33,11 +33,8 @@ endif ()
 # Determine host platform
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DetermineHostPlatform.cmake)
 
-set(ORBBEC_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/sdk/lib/${HOST_PLATFORM})
-set(ORBBEC_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sdk/include/)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 REQUIRED)
-link_directories(${ORBBEC_LIBS})
 
 pybind11_add_module(${PROJECT_NAME}
   src/pyorbbecsdk/pyorbbecsdk.cpp
@@ -66,7 +63,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 if (UNIX)
   target_link_libraries(${PROJECT_NAME} PRIVATE
     -lOrbbecSDK
-    -L${ORBBEC_LIBS}
     )
 elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} PRIVATE
